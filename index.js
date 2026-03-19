@@ -18,7 +18,8 @@ app.use('/Products/images',express.static(path.join(__dirname,'Products/images')
 app.use(cors({
   origin: [
     'http://localhost:5173',
-    'https://online-marketplace-project.netlify.app'
+    'https://online-marketplace-project.netlify.app',
+    'https://online-market-place-frontend.vercel.app'
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
