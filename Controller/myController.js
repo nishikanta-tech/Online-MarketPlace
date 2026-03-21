@@ -19,7 +19,7 @@ const transporter = nodemailer.createTransport({
     user: process.env.EMAIL,
     pass: process.env.APP_PASSWORD
   },
-  connectionTimeout: 10000, // 🔥 prevent timeout crash
+  connectionTimeout: 50000, // 🔥 prevent timeout crash
 });
 
 const generateOTP = () => {
