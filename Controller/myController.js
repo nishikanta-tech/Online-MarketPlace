@@ -10,12 +10,16 @@ const nodemailer = require('nodemailer');
 
 
 // Configure email transporter
+
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true, // 🔥 VERY IMPORTANT
   auth: {
-    user: 'nishikanta394@gmail.com', // Replace with your email
-    pass: 'okbo tlmf htgt yzmw'      // Replace with your Gmail app password
-  }
+    user: process.env.EMAIL,
+    pass: process.env.APP_PASSWORD
+  },
+  connectionTimeout: 10000, // 🔥 prevent timeout crash
 });
 
 const generateOTP = () => {
