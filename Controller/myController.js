@@ -11,15 +11,16 @@ const nodemailer = require('nodemailer');
 
 // Configure email transporter
 
+const nodemailer = require("nodemailer");
+
 const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 465,
-  secure: true, // 🔥 VERY IMPORTANT
+  host: "smtp-relay.brevo.com",
+  port: 587,
+  secure: false,
   auth: {
-    user: process.env.EMAIL,
-    pass: process.env.APP_PASSWORD
-  },
-  connectionTimeout: 50000, // 🔥 prevent timeout crash
+    user: process.env.BREVO_EMAIL,
+    pass: process.env.BREVO_SMTP_KEY
+  }
 });
 
 const generateOTP = () => {
