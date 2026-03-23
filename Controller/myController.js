@@ -6,15 +6,23 @@ const PaymentModel = require('../Models/PaymentModel');
 const RatingModel = require('../Models/RatingModel'); 
 const OTPModel = require('../Models/OTPModel');  
 const crypt = require('bcrypt');
-const nodemailer = require('nodemailer');
+ require('dotenv').config();
+
+
+// const nodemailer = require('nodemailer');
+
 
 
 // Configure email transporter
+
+
+const nodemailer = require('nodemailer');
+
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  service: "gmail",
   auth: {
-    user: 'nishikanta394@gmail.com', // Replace with your email
-    pass: 'okbo tlmf htgt yzmw'      // Replace with your Gmail app password
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS
   }
 });
 
@@ -70,6 +78,7 @@ exports.sendOTP = async (req, res) => {
 
     // Send email
     await transporter.sendMail(mailOptions);
+    // await sendEmail(email, otp);
 
     res.status(200).json({ 
       message: 'OTP sent successfully to your email',
@@ -208,8 +217,12 @@ exports.login = async (req, res) => {
 exports.addProduct = async (req, res) => {
   try {
     const { productName, description, price, category, stockQuantity, sellerId } = req.body;
-    const image = req.file ? req.file.path : null;
-    
+
+    // ✅ FIXED IMAGE URL
+    const image = req.file 
+      ? `${req.protocol}://${req.get('host')}/Products/images/${req.file.filename}` 
+      : null;
+
     if (!productName || !description || !price || !category || !stockQuantity || !sellerId) {
       return res.status(400).json({ message: 'All fields are required' });
     }
@@ -225,7 +238,12 @@ exports.addProduct = async (req, res) => {
     });
 
     const saved = await newProduct.save();
-    res.json({ message: 'Product added successfully', product: saved });
+
+    res.json({
+      message: 'Product added successfully',
+      product: saved
+    });
+
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
