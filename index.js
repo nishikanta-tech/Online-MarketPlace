@@ -10,7 +10,8 @@ const router = require('./Route/myRouter');
 const dns = require('dns');
 
 
-
+console.log("EMAIL:", process.env.EMAIL_USER);
+console.log("PASS:", process.env.EMAIL_PASS ? "Loaded" : "Missing");
 
 dns.setServers(["1.1.1.1", "8.8.8.8"]);
 app.use(express.urlencoded({extended:false}));
