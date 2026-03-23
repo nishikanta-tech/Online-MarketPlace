@@ -27,7 +27,13 @@ const transporter = nodemailer.createTransport({
     pass: process.env.EMAIL_PASS
   }
 });
-
+transporter.verify((error, success) => {
+  if (error) {
+    console.log("SMTP ERROR:", error);
+  } else {
+    console.log("SMTP READY ✅");
+  }
+});
 const generateOTP = () => {
   return Math.floor(100000 + Math.random() * 900000).toString();
 };
