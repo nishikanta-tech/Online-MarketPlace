@@ -260,12 +260,28 @@ exports.addProduct = async (req, res) => {
 
 
 
+// exports.fetchProducts = async (req, res) => {
+//   try {
+//     const products = await ProductModel.find();
+//     return res.json(products);
+//   } catch (error) {
+//     return res.status(500).json({ message: error.message });
+//   }
+// };
+
 exports.fetchProducts = async (req, res) => {
   try {
-    const products = await ProductModel.find();
-    return res.json(products);
+    const page = parseInt(req.query.page) || 1;
+    const limit = 10;
+
+    const products = await ProductModel.find()
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .lean();
+
+    res.json(products);
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    res.status(500).json({ message: error.message });
   }
 };
 
